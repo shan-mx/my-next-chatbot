@@ -14,13 +14,18 @@ const openai = new OpenAI({
 export async function POST(req: Request) {
   const json = await req.json()
   const { messages, previewToken } = json
-  const userId = (await auth())?.user.id
+  // Comment this to remove userId
+// const userId = (await auth())?.user.id
 
-  if (!userId) {
-    return new Response('Unauthorized', {
-      status: 401
-    })
-  }
+  // if (!userId) {
+  // return new Response('Unauthorized', {
+  // status: 401
+  // })
+  // }
+
+// To allow anonymous
+  const userId = (await auth())?.user.id || 'anonymous'
+
 
   if (previewToken) {
     openai.apiKey = previewToken
